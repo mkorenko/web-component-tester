@@ -57,6 +57,7 @@ export interface Config {
     // The hostname used when generating URLs for the webdriver client.
     hostname: string;
 
+    pathToGeneratedIndex?: string;
     _generatedIndexContent?: string;
     _servers?: {variant: string, url: string}[];
   };

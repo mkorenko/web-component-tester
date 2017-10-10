@@ -160,17 +160,21 @@ Expected to find a ${mdFilenames.join(' or ')} at: ${pathToLocalWct}/
     }
 
     const pathToGeneratedIndex =
+        wsOptions.pathToGeneratedIndex ||
         `/components/${packageName}/generated-index.html`;
-    additionalRoutes.set(pathToGeneratedIndex, (_request, response) => {
-      response.set(DEFAULT_HEADERS);
-      response.send(options.webserver._generatedIndexContent);
-    });
+    if (!wsOptions.pathToGeneratedIndex) {
+      additionalRoutes.set(pathToGeneratedIndex, (_request, response) => {
+        response.set(DEFAULT_HEADERS);
+        response.send(options.webserver._generatedIndexContent);
+      });
+    }
 
     // Serve up project & dependencies via polyserve
     const polyserveResult = await startServers({
       root: options.root,
       compile: options.compile,
       hostname: options.webserver.hostname,
+      port: options.webserver.port,
       headers: DEFAULT_HEADERS,
       packageName,
       additionalRoutes,
